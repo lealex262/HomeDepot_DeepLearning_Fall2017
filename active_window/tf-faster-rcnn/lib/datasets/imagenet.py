@@ -31,9 +31,7 @@ class imagenet(imdb):
         self._devkit_path = devkit_path
         self._data_path = os.path.join(self._devkit_path, "data")
         self._classes = ('__background__', # always index 0
-                         'backhoe', 'bulldozer', 'concretemixer',
-                         'compactor', 'crane', 'excavator',
-                         'forklift','loader', 'person', 'truck')
+                         'active_window')
 
         self._class_to_ind = dict(list(zip(self.classes, list(range(self.num_classes)))))
         self._image_ext = ['.jpg', '.png', '.jpeg','.JPEG']

@@ -16,9 +16,7 @@ def parse_rec(filename):
   """ Parse a PASCAL VOC xml file """
 
   classes = ('__background__',  # always index 0
-             'backhoe', 'bulldozer', 'concretemixer',
-             'compactor', 'crane', 'excavator',
-             'forklift', 'loader', 'person', 'truck')
+             'active_window')
   file = open(filename)
   objects = []
   for line in file.read().splitlines():
