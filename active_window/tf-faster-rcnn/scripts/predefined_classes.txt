@@ -1,0 +1,11 @@
+backhoe
+bulldozer
+concrete mixer
+compactor
+crane
+excavator
+forklift
+loader
+person
+truck
+
