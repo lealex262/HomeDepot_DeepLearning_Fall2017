@@ -1,0 +1,23 @@
+
+DATASETS SUMMARY
+================
+[Metadata]
+----------------
+datasets uuid: 6c7d19b6-189e-42dc-8ccb-5e822e31634d
+data source: gs://hd-www-search-personalization/ClickstreamData/OnlineOut/
+data range: 2017-06-04 to 2017-06-10
+================
+[Training dataset]
+----------------
+10547 sessions
+261939 clickstreams
+5281 sessions with sales
+50.07111026832275% of sessions result in sales
+================
+[Testing dataset]
+----------------
+1006 sessions
+24781 clickstreams
+499 sessions with sales
+49.60238568588469% of sessions result in sales
+         
