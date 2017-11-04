@@ -4,8 +4,6 @@ import sys
 sys.path.append("../scripts")
 from model import Model
 from VGG16 import VGG16
-from resnet import resnet
-from vgg import vgg
 from dataset import Dataset
 from network import *
 from datetime import datetime
@@ -15,20 +13,20 @@ from createdatasets import create_data_sets
 def main():
 
     # Dataset path
-    create_data_sets()
+    # create_data_sets()
     train_list = 'train.txt'
     test_list = 'test.txt'
 
     # Learning params
     learning_rate = 0.0005
-    training_iters = 6000 # 10 epochs
+    training_iters = 7000 # 10 epochs
     batch_size = 10
     display_step = 20
     test_step = 100 # 0.5 epoch
     save_step = 1000
 
     # Network params
-    n_classes = 10
+    n_classes = 6
     keep_rate = 0.5
 
     # Graph input
@@ -69,8 +67,8 @@ def main():
     #sys.stdout = log
 
     #Create Confusion matrix
-    confusionMatrix = np.zeros((10, 10))
-    confusionTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    confusionMatrix = np.zeros((6, 6))
+    confusionTotal = [0, 0, 0, 0, 0, 0]
 
     # Launch the graph
     with tf.Session() as sess:
@@ -99,9 +97,9 @@ def main():
             if step%test_step == 0:
                 test_acc = 0.
                 test_count = 0
-                confusionMatrix = np.zeros((10, 10))
-                confusionTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                validPredLabel_count = 0
+                # confusionMatrix = np.zeros((6, 6))
+                # confusionTotal = [0, 0, 0, 0, 0, 0]
+                # validPredLabel_count = 0
 
                 for _ in range(int(dataset.test_size/batch_size)):
                     batch_tx, batch_ty = dataset.next_batch(batch_size, 'test')
@@ -111,25 +109,25 @@ def main():
 
                     #print(len(pred_label))
 
-                    if (max(pred_label) >= 10):
-                        # print(batch_tx)
-                        # print(actual_label)
-                        # print(pred_label)
-                        continue
-                    validPredLabel_count += 1
-                    i = 0
-                    while i < len(pred_label):
-                            confusionMatrix[pred_label[i]][actual_label[i]] += 1
-                            confusionTotal[actual_label[i]] += 1
-                            i += 1
+                    # if (max(pred_label) >= 6):
+                    #     # print(batch_tx)
+                    #     # print(actual_label)
+                    #     # print(pred_label)
+                    #     continue
+                    # validPredLabel_count += 1
+                    # i = 0
+                    # while i < len(pred_label):
+                    #         confusionMatrix[pred_label[i]][actual_label[i]] += 1
+                    #         confusionTotal[actual_label[i]] += 1
+                    #         i += 1
 
                 test_acc /= test_count
                 print( sys.stderr, "{} Iter {}: Testing Accuracy = {:.4f}".format(datetime.now(), step, test_acc))
-                print(validPredLabel_count)
-                for row in range(10):
-                    for col in range(10):
-                        confusionMatrix[row][col] = round((confusionMatrix[row][col] / validPredLabel_count), 2)
-                print(confusionMatrix)
+                # print(validPredLabel_count)
+                # for row in range(6):
+                #     for col in range(6):
+                #         confusionMatrix[row][col] = round((confusionMatrix[row][col] / validPredLabel_count), 2)
+                # print(confusionMatrix)
 
 
 

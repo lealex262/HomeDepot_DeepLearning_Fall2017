@@ -35,7 +35,7 @@ class Dataset:
         # self.mean = np.array([104., 117., 124.])
         #vgg mean
         self.mean = np.array([123.68, 116.779, 103.939])
-        self.n_classes = 10
+        self.n_classes = 6
 
     def next_batch(self, batch_size, phase):
         # Get next batch of image (path) and labels
@@ -65,6 +65,10 @@ class Dataset:
         # Read images
         images = np.ndarray([batch_size, self.crop_size, self.crop_size, 3])
         for i in range(len(paths)):
+            if(i > 9):
+                print(len(paths))
+                print(paths)
+                continue
             img = cv2.imread(paths[i])
             img = cv2.resize(img, (self.scale_size, self.scale_size))
 
@@ -80,6 +84,8 @@ class Dataset:
         # Expand labels
         one_hot_labels = np.zeros((batch_size, self.n_classes))
         for i in range(len(labels)):
+            if (i > 9):
+                continue
             one_hot_labels[i][labels[i]] = 1
         return images, one_hot_labels
 
