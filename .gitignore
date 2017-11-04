@@ -1,0 +1,4 @@
+image_classification/train/training_images/*
+active_window/train_screenshots.zip
+train.zip
+*.jpg
