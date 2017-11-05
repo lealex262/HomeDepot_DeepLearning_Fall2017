@@ -131,7 +131,7 @@ class imagenet(imdb):
             y1 = float(object[2]) - 1
             x2 = float(object[3]) - 1
             y2 = float(object[4]) - 1
-            cls = int(object[0])
+            cls = 1
             boxes[ix, :] = [x1, y1, x2, y2]
             gt_classes[ix] = cls
             overlaps[ix, cls] = 1.0

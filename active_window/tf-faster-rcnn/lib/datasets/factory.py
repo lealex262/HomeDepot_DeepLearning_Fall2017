@@ -39,7 +39,7 @@ for year in ['2015']:
   for split in ['test', 'test-dev']:
     name = 'coco_{}_{}'.format(year, split)
     __sets[name] = (lambda split=split, year=year: coco(split, year))
-imagenet_devkit_path = '/home/lealex262/Documents/Georgia Tech/Fall 2017/VIP/classify/tf-faster-rcnn/data/Imagenet'
+imagenet_devkit_path = '/media/lealex262/OS/Users/Alex Thien An Le/Documents/GeorgiaTech/ClubsnProjects/Hackaton/HomeDepot_DeepLearning_Fall2017/active_window/tf-faster-rcnn/data'
 for split in ['train', 'test']:
     name = 'imagenet_{}_{}'.format('2017', split)
     __sets[name] = (lambda split=split: imagenet(split, "2017", imagenet_devkit_path))

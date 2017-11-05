@@ -12,22 +12,26 @@ from __future__ import print_function
 
 import tensorflow as tf
 from tensorflow.contrib.tensor_forest.python import tensor_forest
+from dataset import Dataset
+
 
 # Ignore all GPUs, tf random forest does not benefit from it.
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 # Import MNIST data
-from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("/tmp/data/", one_hot=False)
+dataset = Dataset("train.json")
 
 # Parameters
-num_steps = 500 # Total steps to train
-batch_size = 1024 # The number of samples per batch
-num_classes = 10 # The 10 digits
-num_features = 784 # Each image is 28x28 pixels
-num_trees = 10
-max_nodes = 1000
+num_steps = 2000 # Total steps to train
+num_classes = 20 # The 10 digits
+num_features = 15 # Each image is 28x28 pixels
+num_trees = 20
+max_nodes = 20
+
+#Learning Params 
+save_step = 10000
+batch_size = 248 # The number of samples per batch
 
 # Input and Target data
 X = tf.placeholder(tf.float32, shape=[None, num_features])
@@ -60,16 +64,26 @@ sess = tf.Session()
 # Run the initializer
 sess.run(init_vars)
 
+
+# create a saver
+saver = tf.train.Saver()
+
+
 # Training
 for i in range(1, num_steps + 1):
     # Prepare Data
     # Get the next batch of MNIST data (only images are needed, not labels)
-    batch_x, batch_y = mnist.train.next_batch(batch_size)
+    batch_x, batch_y = dataset.next_batch(batch_size, 'train')
     _, l = sess.run([train_op, loss_op], feed_dict={X: batch_x, Y: batch_y})
     if i % 50 == 0 or i == 1:
         acc = sess.run(accuracy_op, feed_dict={X: batch_x, Y: batch_y})
         print('Step %i, Loss: %f, Acc: %f' % (i, l, acc))
 
+    # save mid-point models
+    if num_steps % save_step == 0:
+        save_path = saver.save(sess,"model_files/model_" + str(num_steps) +  ".ckpt")
+        print("model saved in file: ", save_path)
+
 # Test Model
-test_x, test_y = mnist.test.images, mnist.test.labels
+test_x, test_y = dataset.test_features, dataset.test_label
 print("Test Accuracy:", sess.run(accuracy_op, feed_dict={X: test_x, Y: test_y}))
